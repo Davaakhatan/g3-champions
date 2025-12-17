@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cohort 3 Champions!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-preview {
+            width: 100%;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .card-preview:hover {
+            transform: scale(1.02);
+        }
+
+        .card-info {
+            margin-top: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-name {
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Modal for full-size preview */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #fff;
+            font-size: 40px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .modal-close:hover {
+            transform: scale(1.2);
+        }
+
+        .search-container {
+            max-width: 500px;
+            margin: 0 auto 40px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 24px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            outline: none;
+            transition: background 0.3s ease;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .search-input:focus {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .card-count {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cohort 3 Champions!</h1>
+
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Search by name..." id="searchInput">
+    </div>
+
+    <p class="card-count"><span id="visibleCount">94</span> of 94 cards</p>
+
+    <div class="cards-grid" id="cardsGrid">
+        <div class="card" data-name="adam white">
+            <img src="assets/cards/1000_adam_white.png" alt="Adam White" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Adam White</span>
+                <a href="assets/cards/1000_adam_white.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="adam isom">
+            <img src="assets/cards/1001_adam_isom.png" alt="Adam Isom" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Adam Isom</span>
+                <a href="assets/cards/1001_adam_isom.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="alexander ho">
+            <img src="assets/cards/1002_alexander_ho.png" alt="Alexander Ho" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Alexander Ho</span>
+                <a href="assets/cards/1002_alexander_ho.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="alexis manyrath">
+            <img src="assets/cards/1003_alexis_manyrath.png" alt="Alexis Manyrath" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Alexis Manyrath</span>
+                <a href="assets/cards/1003_alexis_manyrath.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="amaan">
+            <img src="assets/cards/1004_amaan.png" alt="Amaan" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Amaan</span>
+                <a href="assets/cards/1004_amaan.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="andrew heim">
+            <img src="assets/cards/1005_andrew_heim.png" alt="Andrew Heim" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Andrew Heim</span>
+                <a href="assets/cards/1005_andrew_heim.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="andy chuong">
+            <img src="assets/cards/1006_andy_chuong.png" alt="Andy Chuong" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Andy Chuong</span>
+                <a href="assets/cards/1006_andy_chuong.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="ankit rijal">
+            <img src="assets/cards/1007_ankit_rijal.png" alt="Ankit Rijal" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Ankit Rijal</span>
+                <a href="assets/cards/1007_ankit_rijal.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="arial gardner">
+            <img src="assets/cards/1008_arial_gardner.png" alt="Arial Gardner" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Arial Gardner</span>
+                <a href="assets/cards/1008_arial_gardner.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="atharva sardar">
+            <img src="assets/cards/1009_atharva_sardar.png" alt="Atharva Sardar" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Atharva Sardar</span>
+                <a href="assets/cards/1009_atharva_sardar.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="bruce robinson">
+            <img src="assets/cards/1010_bruce_robinson.png" alt="Bruce Robinson" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Bruce Robinson</span>
+                <a href="assets/cards/1010_bruce_robinson.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="casey manos">
+            <img src="assets/cards/1011_casey_manos.png" alt="Casey Manos" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Casey Manos</span>
+                <a href="assets/cards/1011_casey_manos.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="claudia alban">
+            <img src="assets/cards/1012_claudia_alban.png" alt="Claudia Alban" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Claudia Alban</span>
+                <a href="assets/cards/1012_claudia_alban.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="davaakhatan z">
+            <img src="assets/cards/1013_davaakhatan_z.png" alt="Davaakhatan Z" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Davaakhatan Z</span>
+                <a href="assets/cards/1013_davaakhatan_z.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="david spearman">
+            <img src="assets/cards/1014_david_spearman.png" alt="David Spearman" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">David Spearman</span>
+                <a href="assets/cards/1014_david_spearman.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="elvis ibarra">
+            <img src="assets/cards/1015_elvis_ibarra.png" alt="Elvis Ibarra" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Elvis Ibarra</span>
+                <a href="assets/cards/1015_elvis_ibarra.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="eric roupe">
+            <img src="assets/cards/1016_eric_roupe.png" alt="Eric Roupe" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Eric Roupe</span>
+                <a href="assets/cards/1016_eric_roupe.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="ethan weinhaus">
+            <img src="assets/cards/1017_ethan_weinhaus.png" alt="Ethan Weinhaus" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Ethan Weinhaus</span>
+                <a href="assets/cards/1017_ethan_weinhaus.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="francisco">
+            <img src="assets/cards/1018_francisco.png" alt="Francisco" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Francisco</span>
+                <a href="assets/cards/1018_francisco.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="frank yang">
+            <img src="assets/cards/1019_frank_yang.png" alt="Frank Yang" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Frank Yang</span>
+                <a href="assets/cards/1019_frank_yang.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="gabe">
+            <img src="assets/cards/1020_gabe.png" alt="Gabe" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Gabe</span>
+                <a href="assets/cards/1020_gabe.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="gray morrow">
+            <img src="assets/cards/1021_gray_morrow.png" alt="Gray Morrow" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Gray Morrow</span>
+                <a href="assets/cards/1021_gray_morrow.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="harrison glenn">
+            <img src="assets/cards/1022_harrison_glenn.png" alt="Harrison Glenn" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Harrison Glenn</span>
+                <a href="assets/cards/1022_harrison_glenn.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="isaac jaramillo">
+            <img src="assets/cards/1023_isaac_jaramillo.png" alt="Isaac Jaramillo" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Isaac Jaramillo</span>
+                <a href="assets/cards/1023_isaac_jaramillo.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="jason jorgenson">
+            <img src="assets/cards/1024_jason_jorgenson.png" alt="Jason Jorgenson" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Jason Jorgenson</span>
+                <a href="assets/cards/1024_jason_jorgenson.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="john crimmins">
+            <img src="assets/cards/1025_john_crimmins.png" alt="John Crimmins" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">John Crimmins</span>
+                <a href="assets/cards/1025_john_crimmins.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="johnathan skeete">
+            <img src="assets/cards/1026_johnathan_skeete.png" alt="Johnathan Skeete" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Johnathan Skeete</span>
+                <a href="assets/cards/1026_johnathan_skeete.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="justice p white">
+            <img src="assets/cards/1027_justice_p_white.png" alt="Justice P White" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Justice P White</span>
+                <a href="assets/cards/1027_justice_p_white.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="kenneth yu">
+            <img src="assets/cards/1028_kenneth_yu.png" alt="Kenneth Yu" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Kenneth Yu</span>
+                <a href="assets/cards/1028_kenneth_yu.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="kalin ivanov">
+            <img src="assets/cards/1029_kalin_ivanov.png" alt="Kalin Ivanov" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Kalin Ivanov</span>
+                <a href="assets/cards/1029_kalin_ivanov.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="kiran rushton">
+            <img src="assets/cards/1030_kiran_rushton.png" alt="Kiran Rushton" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Kiran Rushton</span>
+                <a href="assets/cards/1030_kiran_rushton.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="kishor">
+            <img src="assets/cards/1031_kishor.png" alt="Kishor" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Kishor</span>
+                <a href="assets/cards/1031_kishor.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="marcus day">
+            <img src="assets/cards/1032_marcus_day.png" alt="Marcus Day" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Marcus Day</span>
+                <a href="assets/cards/1032_marcus_day.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="logan may">
+            <img src="assets/cards/1033_logan_may.png" alt="Logan May" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Logan May</span>
+                <a href="assets/cards/1033_logan_may.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="matt barge">
+            <img src="assets/cards/1034_matt_barge.png" alt="Matt Barge" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Matt Barge</span>
+                <a href="assets/cards/1034_matt_barge.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="mark fuechec">
+            <img src="assets/cards/1035_mark_fuechec.png" alt="Mark Fuechec" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Mark Fuechec</span>
+                <a href="assets/cards/1035_mark_fuechec.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="matt hulme">
+            <img src="assets/cards/1036_matt_hulme.png" alt="Matt Hulme" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Matt Hulme</span>
+                <a href="assets/cards/1036_matt_hulme.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="max liss">
+            <img src="assets/cards/1037_max_liss.png" alt="Max Liss" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Max Liss</span>
+                <a href="assets/cards/1037_max_liss.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="b max">
+            <img src="assets/cards/1038_b_max.png" alt="B Max" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">B Max</span>
+                <a href="assets/cards/1038_b_max.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="michael korn">
+            <img src="assets/cards/1039_michael_korn.png" alt="Michael Korn" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Michael Korn</span>
+                <a href="assets/cards/1039_michael_korn.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="michael tornaritis">
+            <img src="assets/cards/1040_michael_tornaritis.png" alt="Michael Tornaritis" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Michael Tornaritis</span>
+                <a href="assets/cards/1040_michael_tornaritis.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="mike tikh">
+            <img src="assets/cards/1041_mike_tikh.png" alt="Mike Tikh" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Mike Tikh</span>
+                <a href="assets/cards/1041_mike_tikh.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="myles lewis">
+            <img src="assets/cards/1042_myles_lewis.png" alt="Myles Lewis" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Myles Lewis</span>
+                <a href="assets/cards/1042_myles_lewis.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="miriam simone">
+            <img src="assets/cards/1043_miriam_simone.png" alt="Miriam Simone" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Miriam Simone</span>
+                <a href="assets/cards/1043_miriam_simone.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="murad aleskerov">
+            <img src="assets/cards/1044_murad_aleskerov.png" alt="Murad Aleskerov" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Murad Aleskerov</span>
+                <a href="assets/cards/1044_murad_aleskerov.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="nani">
+            <img src="assets/cards/1045_nani.png" alt="Nani" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Nani</span>
+                <a href="assets/cards/1045_nani.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="nataly costa">
+            <img src="assets/cards/1046_nataly_costa.png" alt="Nataly Costa" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Nataly Costa</span>
+                <a href="assets/cards/1046_nataly_costa.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="nathan shumway">
+            <img src="assets/cards/1047_nathan_shumway.png" alt="Nathan Shumway" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Nathan Shumway</span>
+                <a href="assets/cards/1047_nathan_shumway.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="nick blaskovich">
+            <img src="assets/cards/1048_nick_blaskovich.png" alt="Nick Blaskovich" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Nick Blaskovich</span>
+                <a href="assets/cards/1048_nick_blaskovich.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="noah jul">
+            <img src="assets/cards/1049_noah_jul.png" alt="Noah Jul" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Noah Jul</span>
+                <a href="assets/cards/1049_noah_jul.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="noah rosenfield">
+            <img src="assets/cards/1050_noah_rosenfield.png" alt="Noah Rosenfield" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Noah Rosenfield</span>
+                <a href="assets/cards/1050_noah_rosenfield.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="peter piontek">
+            <img src="assets/cards/1051_peter_piontek.png" alt="Peter Piontek" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Peter Piontek</span>
+                <a href="assets/cards/1051_peter_piontek.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="peter sorensen">
+            <img src="assets/cards/1052_peter_sorensen.png" alt="Peter Sorensen" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Peter Sorensen</span>
+                <a href="assets/cards/1052_peter_sorensen.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="ramish saqib">
+            <img src="assets/cards/1053_ramish_saqib.png" alt="Ramish Saqib" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Ramish Saqib</span>
+                <a href="assets/cards/1053_ramish_saqib.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="rasheed lewis">
+            <img src="assets/cards/1054_rasheed_lewis.png" alt="Rasheed Lewis" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Rasheed Lewis</span>
+                <a href="assets/cards/1054_rasheed_lewis.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="reena puthota">
+            <img src="assets/cards/1055_reena_puthota.png" alt="Reena Puthota" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Reena Puthota</span>
+                <a href="assets/cards/1055_reena_puthota.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="remy">
+            <img src="assets/cards/1056_remy.png" alt="Remy" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Remy</span>
+                <a href="assets/cards/1056_remy.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="reuben brooks">
+            <img src="assets/cards/1057_reuben_brooks.png" alt="Reuben Brooks" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Reuben Brooks</span>
+                <a href="assets/cards/1057_reuben_brooks.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="ryan zernach">
+            <img src="assets/cards/1058_ryan_zernach.png" alt="Ryan Zernach" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Ryan Zernach</span>
+                <a href="assets/cards/1058_ryan_zernach.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="sainatha">
+            <img src="assets/cards/1059_sainatha.png" alt="Sainatha" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Sainatha</span>
+                <a href="assets/cards/1059_sainatha.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="sam walker">
+            <img src="assets/cards/1060_sam_walker.png" alt="Sam Walker" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Sam Walker</span>
+                <a href="assets/cards/1060_sam_walker.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="sami heard">
+            <img src="assets/cards/1061_sami_heard.png" alt="Sami Heard" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Sami Heard</span>
+                <a href="assets/cards/1061_sami_heard.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="sanjay karinje">
+            <img src="assets/cards/1062_sanjay_karinje.png" alt="Sanjay Karinje" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Sanjay Karinje</span>
+                <a href="assets/cards/1062_sanjay_karinje.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="tahmeed rahim">
+            <img src="assets/cards/1063_tahmeed_rahim.png" alt="Tahmeed Rahim" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Tahmeed Rahim</span>
+                <a href="assets/cards/1063_tahmeed_rahim.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="tom bauer">
+            <img src="assets/cards/1064_tom_bauer.png" alt="Tom Bauer" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Tom Bauer</span>
+                <a href="assets/cards/1064_tom_bauer.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="tony kim">
+            <img src="assets/cards/1065_tony_kim.png" alt="Tony Kim" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Tony Kim</span>
+                <a href="assets/cards/1065_tony_kim.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="vanes mercado">
+            <img src="assets/cards/1066_vanes_mercado.png" alt="Vanes Mercado" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Vanes Mercado</span>
+                <a href="assets/cards/1066_vanes_mercado.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="tylor pohn">
+            <img src="assets/cards/1067_tylor_pohn.png" alt="Tylor Pohn" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Tylor Pohn</span>
+                <a href="assets/cards/1067_tylor_pohn.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="yahav corcos">
+            <img src="assets/cards/1068_yahav_corcos.png" alt="Yahav Corcos" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Yahav Corcos</span>
+                <a href="assets/cards/1068_yahav_corcos.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="vincent chan">
+            <img src="assets/cards/1069_vincent_chan.png" alt="Vincent Chan" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Vincent Chan</span>
+                <a href="assets/cards/1069_vincent_chan.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="will sutton">
+            <img src="assets/cards/1070_will_sutton.png" alt="Will Sutton" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Will Sutton</span>
+                <a href="assets/cards/1070_will_sutton.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="yanyan wang">
+            <img src="assets/cards/1071_yanyan_wang.png" alt="Yanyan Wang" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Yanyan Wang</span>
+                <a href="assets/cards/1071_yanyan_wang.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="yibin long">
+            <img src="assets/cards/1072_yibin_long.png" alt="Yibin Long" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Yibin Long</span>
+                <a href="assets/cards/1072_yibin_long.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="zeno shin">
+            <img src="assets/cards/1073_zeno_shin.png" alt="Zeno Shin" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Zeno Shin</span>
+                <a href="assets/cards/1073_zeno_shin.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="nick kenkel">
+            <img src="assets/cards/1074_nick_kenkel.png" alt="Nick Kenkel" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Nick Kenkel</span>
+                <a href="assets/cards/1074_nick_kenkel.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="rebecca metters">
+            <img src="assets/cards/1075_rebecca_metters.png" alt="Rebecca Metters" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Rebecca Metters</span>
+                <a href="assets/cards/1075_rebecca_metters.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="brett johnson">
+            <img src="assets/cards/1076_brett_johnson.png" alt="Brett Johnson" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Brett Johnson</span>
+                <a href="assets/cards/1076_brett_johnson.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="austen allred">
+            <img src="assets/cards/1077_austen_allred.png" alt="Austen Allred" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Austen Allred</span>
+                <a href="assets/cards/1077_austen_allred.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="sean fix">
+            <img src="assets/cards/1078_sean_fix.png" alt="Sean Fix" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Sean Fix</span>
+                <a href="assets/cards/1078_sean_fix.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="tom babb">
+            <img src="assets/cards/1079_tom_babb.png" alt="Tom Babb" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Tom Babb</span>
+                <a href="assets/cards/1079_tom_babb.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="patrick skinner">
+            <img src="assets/cards/1080_patrick_skinner.png" alt="Patrick Skinner" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Patrick Skinner</span>
+                <a href="assets/cards/1080_patrick_skinner.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="carson mccann">
+            <img src="assets/cards/1081_carson_mccann.png" alt="Carson McCann" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Carson McCann</span>
+                <a href="assets/cards/1081_carson_mccann.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="emilio haraldsson">
+            <img src="assets/cards/1082_emilio_haraldsson.png" alt="Emilio Haraldsson" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Emilio Haraldsson</span>
+                <a href="assets/cards/1082_emilio_haraldsson.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="jon lucas">
+            <img src="assets/cards/1083_jon_lucas.png" alt="Jon Lucas" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Jon Lucas</span>
+                <a href="assets/cards/1083_jon_lucas.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="zac smith">
+            <img src="assets/cards/1084_zac_smith.png" alt="Zac Smith" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Zac Smith</span>
+                <a href="assets/cards/1084_zac_smith.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="adam weil">
+            <img src="assets/cards/1085_adam_weil.png" alt="Adam Weil" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Adam Weil</span>
+                <a href="assets/cards/1085_adam_weil.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="andria kowalchik">
+            <img src="assets/cards/1086_andria_kowalchik.png" alt="Andria Kowalchik" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Andria Kowalchik</span>
+                <a href="assets/cards/1086_andria_kowalchik.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="nina">
+            <img src="assets/cards/1087_nina.png" alt="Nina" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Nina</span>
+                <a href="assets/cards/1087_nina.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="ash tilawat">
+            <img src="assets/cards/1088_ash_tilawat.png" alt="Ash Tilawat" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Ash Tilawat</span>
+                <a href="assets/cards/1088_ash_tilawat.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="meri louko">
+            <img src="assets/cards/1089_meri_louko.png" alt="Meri Louko" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Meri Louko</span>
+                <a href="assets/cards/1089_meri_louko.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="derek peters">
+            <img src="assets/cards/1090_derek_peters.png" alt="Derek Peters" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Derek Peters</span>
+                <a href="assets/cards/1090_derek_peters.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="aaron">
+            <img src="assets/cards/1091_aaron.png" alt="Aaron" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Aaron</span>
+                <a href="assets/cards/1091_aaron.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="drew pokorny">
+            <img src="assets/cards/1092_drew_pokorny.png" alt="Drew Pokorny" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Drew Pokorny</span>
+                <a href="assets/cards/1092_drew_pokorny.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+        <div class="card" data-name="gianfranco">
+            <img src="assets/cards/1093_gianfranco.png" alt="Gianfranco" class="card-preview" onclick="openModal(this.src)">
+            <div class="card-info">
+                <span class="card-name">Gianfranco</span>
+                <a href="assets/cards/1093_gianfranco.png" download class="download-btn">Download</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for full-size preview -->
+    <div class="modal" id="modal" onclick="closeModal()">
+        <span class="modal-close">&times;</span>
+        <img src="" alt="Full size preview" id="modalImg">
+    </div>
+
+    <script>
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const cardsGrid = document.getElementById('cardsGrid');
+        const cards = cardsGrid.getElementsByClassName('card');
+        const visibleCount = document.getElementById('visibleCount');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            let count = 0;
+
+            for (let card of cards) {
+                const name = card.getAttribute('data-name');
+                if (name.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    count++;
+                } else {
+                    card.style.display = 'none';
+                }
+            }
+
+            visibleCount.textContent = count;
+        });
+
+        // Modal functionality
+        function openModal(src) {
+            const modal = document.getElementById('modal');
+            const modalImg = document.getElementById('modalImg');
+            modal.classList.add('active');
+            modalImg.src = src;
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('active');
+        }
+
+        // Close modal on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
